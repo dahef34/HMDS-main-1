@@ -13,6 +13,7 @@ class Muser {
   String? postcode;
   String? state;
   String? country;
+  List? appointment;
 
   Muser(
       {this.uid,
@@ -26,7 +27,8 @@ class Muser {
       this.city,
       this.postcode,
       this.state,
-      this.country});
+      this.country,
+      this.appointment});
 
   factory Muser.fromMap(map) {
     return Muser(
@@ -42,6 +44,7 @@ class Muser {
       postcode: map['postcode'],
       state: map['state'],
       country: map['country'],
+      appointment: map['appointment'],
     );
   }
 
@@ -59,6 +62,7 @@ class Muser {
       'postcode': postcode,
       'state': state,
       'country': country,
+      'appointment': appointment,
     };
   }
 }
