@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
-import 'package:hmd_system/pages/model/appoinment.dart';
+import 'package:hmd_system/model/Muser.dart';
+import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 
 class addApt extends StatefulWidget {

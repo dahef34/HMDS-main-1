@@ -1,6 +1,6 @@
 import 'package:hmd_system/pages/authenticate/login.dart';
 import 'package:hmd_system/pages/home/home.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
+import 'package:hmd_system/model/Muser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +15,13 @@ class ResetScreen extends StatefulWidget {
 class _ResetScreenState extends State<ResetScreen> {
   final formkey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
+  var email = " ";
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+  }
 
   final auth = FirebaseAuth.instance;
 
@@ -31,6 +38,7 @@ class _ResetScreenState extends State<ResetScreen> {
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+[a-z]").hasMatch(value)) {
           return ("Please Enter Valid Email");
         }
+
         return null;
       },
       onSaved: (value) {
@@ -55,7 +63,12 @@ class _ResetScreenState extends State<ResetScreen> {
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
-          reset(emailController.text);
+          if (formkey.currentState!.validate()) {
+            setState(() {
+              email = emailController.text;
+            });
+            reset();
+          }
         },
         child: Text(
           "Send Request",
@@ -110,17 +123,26 @@ class _ResetScreenState extends State<ResetScreen> {
     );
   }
 
-  void reset(String email) async {
-    if (formkey.currentState!.validate()) {
+  reset() async {
+    try {
       await auth.sendPasswordResetEmail(email: email);
       Fluttertoast.showToast(msg: "Check your email to reset the password");
-      Navigator.of(context)
-          .pushReplacement(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => Loginpage()),
-      )
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No User Found \n Please Enter Valid Email');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.black,
+            content: Text(
+              'No User Found \nPlease Enter Valid Email',
+              style: TextStyle(fontSize: 15.0, color: Colors.white),
+            ),
+          ),
+        );
+      }
     }
   }
 }

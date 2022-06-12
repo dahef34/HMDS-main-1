@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hmd_system/pages/authenticate/regMuser.dart';
 import 'package:hmd_system/pages/authenticate/reset.dart';
 import 'package:hmd_system/pages/home/home.dart';
+import 'package:hmd_system/component/loading.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -31,8 +32,9 @@ class _LoginState extends State<Loginpage> {
       );
   bool hidePassword = true;
   final formkey = GlobalKey<FormState>();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+  final emailController = new TextEditingController();
+  final passwordController = new TextEditingController();
+  bool loading = false;
 
   final _auth = FirebaseAuth.instance;
 
@@ -112,7 +114,7 @@ class _LoginState extends State<Loginpage> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
+        onPressed: () async {
           signIn(emailController.text, passwordController.text);
         },
         child: Text(
@@ -134,81 +136,83 @@ class _LoginState extends State<Loginpage> {
 
         return shouldPop ?? false;
       },
-      child: Scaffold(
-        backgroundColor: Colors.blueGrey[100],
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              color: Colors.blueGrey[100],
-              child: Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Form(
-                  key: formkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Welcome!',
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: 35,
-                        ),
-                      ),
-                      SizedBox(height: 45),
-                      emailField,
-                      SizedBox(height: 25),
-                      passwordField,
-                      SizedBox(height: 35),
-                      loginButton,
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Press me to "),
-                          GestureDetector(
-                            onTap: () {
-                              _navigateToSignupScreen(context);
-                            },
-                            child: Text(
-                              "Signup ",
+      child: loading
+          ? Loading()
+          : Scaffold(
+              backgroundColor: Colors.blueGrey[100],
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.blueGrey[100],
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Form(
+                        key: formkey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Welcome!',
                               style: TextStyle(
-                                  color: Colors.blue[900],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          ),
-                          Text("now !")
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              _navigateToResetScreen(context);
-                            },
-                            child: Text(
-                              "Forgot Password",
-                              style: TextStyle(
-                                color: Colors.red[700],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w500,
+                                fontSize: 35,
                               ),
                             ),
-                          )
-                        ],
+                            SizedBox(height: 45),
+                            emailField,
+                            SizedBox(height: 25),
+                            passwordField,
+                            SizedBox(height: 35),
+                            loginButton,
+                            SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Press me to "),
+                                GestureDetector(
+                                  onTap: () {
+                                    _navigateToSignupScreen(context);
+                                  },
+                                  child: Text(
+                                    "Signup ",
+                                    style: TextStyle(
+                                        color: Colors.blue[900],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                                Text("now !")
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    _navigateToResetScreen(context);
+                                  },
+                                  child: Text(
+                                    "Forgot Password",
+                                    style: TextStyle(
+                                      color: Colors.red[700],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -230,7 +234,8 @@ class _LoginState extends State<Loginpage> {
 
   void signIn(String email, String password) async {
     if (formkey.currentState!.validate()) {
-      await _auth
+      setState(() => loading = true);
+      dynamic result = await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successfully"),
@@ -239,6 +244,9 @@ class _LoginState extends State<Loginpage> {
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
+        setState(() {
+          loading = false;
+        });
       });
     }
   }

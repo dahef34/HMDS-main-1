@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
+import 'package:hmd_system/model/Muser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_database/firebase_database.dart';
 

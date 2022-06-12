@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hmd_system/pages/home/home.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
+import 'package:hmd_system/model/Muser.dart';
 
 class RegMuser extends StatefulWidget {
   const RegMuser({Key? key}) : super(key: key);
@@ -121,7 +121,7 @@ class _RegMuserState extends State<RegMuser> {
           return ("Password Is Required For Login");
         }
         if (!regex.hasMatch(value)) {
-          return ("Please Enter Valid Password");
+          return ("Please Enter Valid Password \n(6 Characters & above..)");
         }
       },
       textInputAction: TextInputAction.next,

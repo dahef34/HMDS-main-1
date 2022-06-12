@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
+import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/pages/monitoring/monitoring1.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/pages/settings.dart';

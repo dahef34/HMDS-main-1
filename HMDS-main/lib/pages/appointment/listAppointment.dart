@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hmd_system/pages/model/Muser.dart';
-import 'package:hmd_system/pages/model/appoinment.dart';
+import 'package:hmd_system/model/Muser.dart';
+import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 
 class listApt extends StatefulWidget {
@@ -15,7 +15,6 @@ class listApt extends StatefulWidget {
 class _listAptState extends State<listApt> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  var apts = [];
   final _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   final _auth = FirebaseAuth.instance;
@@ -27,31 +26,12 @@ class _listAptState extends State<listApt> {
   void initState() {
     super.initState();
     loadUser();
-    loadApt();
   }
 
   void loadUser() {
     _firestore.collection("mUsers").doc(user!.uid).get().then((value) {
       this.loggedInUser = Muser.fromMap(value.data());
       setState(() {});
-    });
-  }
-
-  void loadApt() {
-    _firestore
-        .collection("mUsers")
-        .doc(_auth.currentUser!.uid)
-        .get()
-        .then((snapshot) {
-      for (var apt in snapshot.data()!["Appointment"]) {
-        _firestore.collection("appointment").doc(apt).get().then((aptSnapshot) {
-          setState(() {
-            apts.add(Appointment(
-              title: aptSnapshot["title"],
-            ));
-          });
-        });
-      }
     });
   }
 
@@ -111,40 +91,6 @@ class _listAptState extends State<listApt> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: ListView.builder(
-                itemCount: apts.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ExpansionTile(
-                      title: Text(
-                        apts[index],
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500),
-                      ),
-                      children: [
-                        Container(
-                          height: 50,
-                          child: ListView.builder(
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: apts[index],
-                                  subtitle: Text(
-                                    '${apst.title}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
             Card(
                 child: Container(
               child: Column(
@@ -174,7 +120,7 @@ class _listAptState extends State<listApt> {
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      "${loggedInUser.appointment!.elementAt(1)}",
+                      "${loggedInUser.appointment}",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
