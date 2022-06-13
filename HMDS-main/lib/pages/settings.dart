@@ -33,6 +33,11 @@ class _setPageState extends State<setPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.green,
+                  shadowColor: Colors.black,
+                  side: BorderSide(
+                    color: Colors.black38,
+                    width: 2.0,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -44,7 +49,10 @@ class _setPageState extends State<setPage> {
                 },
                 child: Text(
                   'Change Password',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
                 ),
               ),
             ),
@@ -52,10 +60,23 @@ class _setPageState extends State<setPage> {
               width: 200,
               height: 50,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                  side: BorderSide(
+                    color: Colors.black38,
+                    width: 2.0,
+                  ),
+                ),
                 onPressed: () {
                   logout(context);
                 },
-                child: Text('Logout'),
+                child: Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                ),
               ),
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,16 +21,29 @@ class _listAptState extends State<listApt> {
   Muser loggedInUser = Muser();
   Appointment apst = Appointment();
 
+  var aptList = [];
+
   @override
   void initState() {
     super.initState();
-    loadUser();
+    loadList();
   }
 
-  void loadUser() {
-    _firestore.collection("mUsers").doc(user!.uid).get().then((value) {
-      this.loggedInUser = Muser.fromMap(value.data());
-      setState(() {});
+  void loadList() {
+    _firestore.collection("mUsers").doc(user!.uid).get().then((snapshot) {
+      this.loggedInUser = Muser.fromMap(snapshot.data());
+      for (var apts in snapshot.data()?["appointment"]) {
+        _firestore
+            .collection("appointment")
+            .doc(apts)
+            .get()
+            .then((aptsSnapshot) {
+          apst = Appointment.fromMap(aptsSnapshot.data());
+          setState(() {
+            aptList.toList();
+          });
+        });
+      }
     });
   }
 
@@ -92,44 +104,45 @@ class _listAptState extends State<listApt> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Card(
-                child: Container(
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      "Name",
-                      style: TextStyle(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        "Name",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "${loggedInUser.name}",
+                        style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      "${loggedInUser.name}",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      "Test List",
-                      style: TextStyle(
+                    ListTile(
+                      title: Text(
+                        "Test List",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "${apst.title}",
+                        style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      "${loggedInUser.appointment}",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            )),
+            ),
           ],
         ),
       ),
