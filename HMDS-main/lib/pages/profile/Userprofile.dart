@@ -23,7 +23,7 @@ class _userProfileState extends State<userProfile> {
     super.initState();
     FirebaseFirestore.instance.collection("mUsers").doc(user!.uid).get().then(
       (value) {
-        this.loggedInUser = Muser.fromMap(value.data());
+        loggedInUser = Muser.fromMap(value.data());
         setState(() {});
       },
     );

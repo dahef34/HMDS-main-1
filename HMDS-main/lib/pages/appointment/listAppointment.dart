@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
+import 'package:hmd_system/component/aList.dart';
+import 'package:provider/provider.dart';
+import 'package:hmd_system/component/database.dart';
 
 class listApt extends StatefulWidget {
   @override
@@ -16,33 +19,37 @@ class _listAptState extends State<listApt> {
 
   final _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
-  final _auth = FirebaseAuth.instance;
 
   Muser loggedInUser = Muser();
   Appointment apst = Appointment();
 
-  var aptList = [];
+  List<Appointment> _aptList = [];
 
   @override
   void initState() {
     super.initState();
     loadList();
+    loadUser();
   }
 
-  void loadList() {
+  void loadUser() {
+    _firestore.collection("mUsers").doc(user!.uid).get().then((value) {
+      loggedInUser = Muser.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
+  Future loadList() async {
     _firestore.collection("mUsers").doc(user!.uid).get().then((snapshot) {
-      this.loggedInUser = Muser.fromMap(snapshot.data());
-      for (var apts in snapshot.data()?["appointment"]) {
-        _firestore
-            .collection("appointment")
-            .doc(apts)
-            .get()
-            .then((aptsSnapshot) {
-          apst = Appointment.fromMap(aptsSnapshot.data());
-          setState(() {
-            aptList.toList();
-          });
-        });
+      for (var data in snapshot.data()?["appointment"]) {
+        _firestore.collection("appointment").doc(apst.uid).get().then(
+          (snapshot) {
+            setState(() {
+              _aptList =
+                  List.from(data.docs.map((doc) => Appointment.fromMap(doc)));
+            });
+          },
+        );
       }
     });
   }
@@ -125,7 +132,7 @@ class _listAptState extends State<listApt> {
                     ),
                     ListTile(
                       title: Text(
-                        "Test List",
+                        "Test",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
@@ -137,6 +144,33 @@ class _listAptState extends State<listApt> {
                           color: Colors.black,
                           fontSize: 18,
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0, bottom: 16.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              children: [
+                                Text("Test List"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Container(
+                      height: 100.0,
+                      child: ListView.builder(
+                        itemCount: _aptList.length,
+                        itemBuilder: (context, index) {
+                          return aList(_aptList[index] as Appointment);
+                        },
                       ),
                     ),
                   ],
