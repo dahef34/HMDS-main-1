@@ -19,6 +19,26 @@ class _editProfileState extends State<editProfile> {
 
   User? user = FirebaseAuth.instance.currentUser;
   Muser loggedInUser = Muser();
+  final List<String> pos = ['Dr', 'Nurse'];
+  String _stt = "Johor";
+  final List<String> stt = [
+    'Johor,',
+    'Kedah,',
+    'Kelantan,',
+    'Kuala Lumpur,',
+    'Labuan,',
+    'Malacca,',
+    'Negeri Sembilan,',
+    'Pahang,',
+    'Penang,',
+    'Perak,',
+    'Perlis,',
+    'Putrajaya,',
+    'Sabah,',
+    'Sarawak,',
+    'Selangor,',
+    'Terengganu,'
+  ];
 
   Future<void> updateUser(
       uid, name, post, dept, hosp, street, city, postcode, state, country) {
@@ -157,24 +177,20 @@ class _editProfileState extends State<editProfile> {
 
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextFormField(
-                        initialValue: post,
-                        autofocus: false,
+                      child: DropdownButtonFormField(
+                        value: post,
                         onChanged: (value) => post = value,
                         decoration: InputDecoration(
                           labelText: 'Position: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
-                          errorStyle:
-                              TextStyle(color: Colors.red, fontSize: 15),
                         ),
-                        validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
-                          if (value!.isEmpty) {
-                            return ("Cannot Be Empty");
-                          }
-                          return null;
-                        },
+                        items: pos.map((post) {
+                          return DropdownMenuItem(
+                            value: post,
+                            child: Text(post),
+                          );
+                        }).toList(),
                       ),
                     ),
 
@@ -295,24 +311,20 @@ class _editProfileState extends State<editProfile> {
 
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10.0),
-                      child: TextFormField(
-                        initialValue: state,
-                        autofocus: false,
+                      child: DropdownButtonFormField(
+                        value: state,
                         onChanged: (value) => state = value,
                         decoration: InputDecoration(
                           labelText: 'State: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
-                          errorStyle:
-                              TextStyle(color: Colors.red, fontSize: 15),
                         ),
-                        validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
-                          if (value!.isEmpty) {
-                            return ("Cannot Be Empty");
-                          }
-                          return null;
-                        },
+                        items: stt.map<DropdownMenuItem<String>>((state) {
+                          return DropdownMenuItem<String>(
+                            value: state,
+                            child: Text("${state}"),
+                          );
+                        }).toList(),
                       ),
                     ),
 

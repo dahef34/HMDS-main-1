@@ -33,7 +33,7 @@
 22-->[androidx.core:core:1.6.0] C:\Users\User\.gradle\caches\transforms-2\files-2.1\875654acb8fd75501dc33efa1bebb479\core-1.6.0\AndroidManifest.xml:24:18-86
 23        android:debuggable="true"
 24        android:icon="@mipmap/ic_launcher"
-25        android:label="hmd_system" >
+25        android:label="HMDS" >
 26        <activity
 27            android:name="com.example.hmd_system.MainActivity"
 28            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

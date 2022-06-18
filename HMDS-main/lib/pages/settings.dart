@@ -69,6 +69,10 @@ class _setPageState extends State<setPage> {
                 ),
                 onPressed: () {
                   logout(context);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => const Loginpage()),
+                      (Route<dynamic> route) => false);
                 },
                 child: Text(
                   'Logout',

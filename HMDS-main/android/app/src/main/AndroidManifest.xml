@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hmd_system">
    <application
-        android:label="hmd_system"
+        android:label="HMDS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

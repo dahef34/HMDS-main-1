@@ -83,6 +83,7 @@ MERGED from [:firebase_core] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\f
 MERGED from [:image_picker_android] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\image_picker_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-19:12
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:fluttertoast] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:flutter_native_splash] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\flutter_native_splash\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-analytics-ktx:20.1.2] C:\Users\User\.gradle\caches\transforms-2\files-2.1\468df283ff0cc6947d03d47bf847b87c\jetified-firebase-analytics-ktx-20.1.2\AndroidManifest.xml:2:1-17:12
 MERGED from [com.google.firebase:firebase-common-ktx:20.1.0] C:\Users\User\.gradle\caches\transforms-2\files-2.1\b574fe8966aaad06e782e72c4653f61a\jetified-firebase-common-ktx-20.1.0\AndroidManifest.xml:2:1-21:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\User\.gradle\caches\transforms-2\files-2.1\0a729947d9f2682586d5957414cbefca\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
@@ -181,6 +182,8 @@ MERGED from [:flutter_plugin_android_lifecycle] C:\Users\User\Downloads\HMDS-mai
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:fluttertoast] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\fluttertoast\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\flutter_native_splash\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_native_splash] C:\Users\User\Downloads\HMDS-main\HMDS-main\build\flutter_native_splash\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics-ktx:20.1.2] C:\Users\User\.gradle\caches\transforms-2\files-2.1\468df283ff0cc6947d03d47bf847b87c\jetified-firebase-analytics-ktx-20.1.2\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics-ktx:20.1.2] C:\Users\User\.gradle\caches\transforms-2\files-2.1\468df283ff0cc6947d03d47bf847b87c\jetified-firebase-analytics-ktx-20.1.2\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common-ktx:20.1.0] C:\Users\User\.gradle\caches\transforms-2\files-2.1\b574fe8966aaad06e782e72c4653f61a\jetified-firebase-common-ktx-20.1.0\AndroidManifest.xml:6:5-8:41

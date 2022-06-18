@@ -6,15 +6,10 @@ import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/component/aList.dart';
-import 'package:provider/provider.dart';
-import 'package:hmd_system/component/database.dart';
 
-class listApt extends StatefulWidget {
-  @override
-  _listAptState createState() => _listAptState();
-}
+class ListApt extends StatelessWidget {
+  ListApt({Key? key}) : super(key: key);
 
-class _listAptState extends State<listApt> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _firestore = FirebaseFirestore.instance;
@@ -25,33 +20,21 @@ class _listAptState extends State<listApt> {
 
   List<Appointment> _aptList = [];
 
-  @override
-  void initState() {
-    super.initState();
-    loadList();
-    loadUser();
-  }
+  Future<List<Appointment>?> loadList() async {
+    await _firestore
+        .collection("mUsers")
+        .doc(user!.uid)
+        .get()
+        .then((snapshot) async {
+      loggedInUser = Muser.fromMap(snapshot.data());
+      for (var apts in snapshot.data()?["appointment"]) {
+        var _appointment =
+            await _firestore.collection("appointment").doc(apts).get();
 
-  void loadUser() {
-    _firestore.collection("mUsers").doc(user!.uid).get().then((value) {
-      loggedInUser = Muser.fromMap(value.data());
-      setState(() {});
-    });
-  }
-
-  Future loadList() async {
-    _firestore.collection("mUsers").doc(user!.uid).get().then((snapshot) {
-      for (var data in snapshot.data()?["appointment"]) {
-        _firestore.collection("appointment").doc(apst.uid).get().then(
-          (snapshot) {
-            setState(() {
-              _aptList =
-                  List.from(data.docs.map((doc) => Appointment.fromMap(doc)));
-            });
-          },
-        );
+        _aptList.add(Appointment.fromMap(_appointment.data()));
       }
     });
+    return _aptList;
   }
 
   @override
@@ -61,8 +44,8 @@ class _listAptState extends State<listApt> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[800],
         elevation: 0,
-        leading: BackButton(),
-        title: Text(
+        leading: const BackButton(),
+        title: const Text(
           'Appointment List',
           style: TextStyle(
             fontSize: 15.0,
@@ -81,7 +64,7 @@ class _listAptState extends State<listApt> {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
@@ -96,7 +79,7 @@ class _listAptState extends State<listApt> {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings,
                   color: Colors.black,
                 ),
@@ -107,77 +90,52 @@ class _listAptState extends State<listApt> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(
-                        "Name",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "${loggedInUser.name}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Test",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "${apst.title}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0, bottom: 16.0),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Column(
-                              children: [
-                                Text("Test List"),
-                              ],
+        child: FutureBuilder(
+          future: loadList(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: _aptList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            "${_aptList[index].title}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                          subtitle: Text(
+                            "${_aptList[index].details}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          ),
+                          trailing: Text(
+                            "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Container(
-                      height: 100.0,
-                      child: ListView.builder(
-                        itemCount: _aptList.length,
-                        itemBuilder: (context, index) {
-                          return aList(_aptList[index] as Appointment);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
       endDrawer: ClipPath(
