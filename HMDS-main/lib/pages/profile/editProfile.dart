@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/settings.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hmd_system/model/Muser.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class editProfile extends StatefulWidget {
   const editProfile({Key? key}) : super(key: key);
@@ -20,24 +18,23 @@ class _editProfileState extends State<editProfile> {
   User? user = FirebaseAuth.instance.currentUser;
   Muser loggedInUser = Muser();
   final List<String> pos = ['Dr', 'Nurse'];
-  String _stt = "Johor";
   final List<String> stt = [
-    'Johor,',
-    'Kedah,',
-    'Kelantan,',
-    'Kuala Lumpur,',
-    'Labuan,',
-    'Malacca,',
-    'Negeri Sembilan,',
-    'Pahang,',
-    'Penang,',
-    'Perak,',
-    'Perlis,',
-    'Putrajaya,',
-    'Sabah,',
-    'Sarawak,',
-    'Selangor,',
-    'Terengganu,'
+    'Johor',
+    'Kedah',
+    'Kelantan',
+    'Kuala Lumpur',
+    'Labuan',
+    'Malacca',
+    'Negeri Sembilan',
+    'Pahang',
+    'Penang',
+    'Perak',
+    'Perlis',
+    'Putrajaya',
+    'Sabah',
+    'Sarawak',
+    'Selangor',
+    'Terengganu'
   ];
 
   Future<void> updateUser(

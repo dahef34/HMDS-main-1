@@ -3,13 +3,12 @@ import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/pages/settings.dart';
 
 class monitor2 extends StatefulWidget {
-   const monitor2({Key? key}) : super(key: key);
+  const monitor2({Key? key}) : super(key: key);
   @override
   _monitor2State createState() => _monitor2State();
 }
 
 class _monitor2State extends State<monitor2> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -85,14 +84,14 @@ class _monitor2State extends State<monitor2> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-
                   Container(
                     padding: EdgeInsets.all(5.0),
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => userProfile()),
+                          MaterialPageRoute(
+                              builder: (context) => userProfile()),
                         );
                       },
                       child: Text(
@@ -107,7 +106,6 @@ class _monitor2State extends State<monitor2> {
                       ),
                     ),
                   ),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
@@ -117,9 +115,7 @@ class _monitor2State extends State<monitor2> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
@@ -129,9 +125,7 @@ class _monitor2State extends State<monitor2> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
@@ -141,9 +135,7 @@ class _monitor2State extends State<monitor2> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(),
-
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
@@ -153,12 +145,10 @@ class _monitor2State extends State<monitor2> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(),
-
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(width:3.0),
+                      border: Border.all(width: 3.0),
                       color: Colors.blueGrey[200],
                     ),
                     child: Text(
@@ -176,10 +166,10 @@ class _monitor2State extends State<monitor2> {
                     ),
                     child: Text(
                       '02.02.2022 (WED) 08.00 AM - Second Visit'
-                          '\n'
-                          '\n03.02.2022 (THU) 10.00 AM - Body Checkup'
-                          '\n'
-                          '\n17.02.2022 (THU) 10.00 AM - Third Checkup',
+                      '\n'
+                      '\n03.02.2022 (THU) 10.00 AM - Body Checkup'
+                      '\n'
+                      '\n17.02.2022 (THU) 10.00 AM - Third Checkup',
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -204,9 +194,7 @@ class _monitor2State extends State<monitor2> {
           ),
         ),
       ),
-
       key: _scaffoldKey,
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal[200],
         onPressed: () {
@@ -235,3 +223,121 @@ class _DrawerClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
+
+/*
+GridView(
+          children: [
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blueGrey[300],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Arno",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Geronimo",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "\nCoronary Heart Disease",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {
+              },
+            ),
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blueGrey[300],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "May",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Lee Jay",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "\nCardiomyopathy",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {},
+            ),
+            InkWell(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blueGrey[300],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Samad",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "bin Muhammad",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "\nArrhythmia",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () {},
+            ),
+          ],
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 20,
+          ),
+        ),
+ */

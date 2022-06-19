@@ -6,7 +6,6 @@ import 'package:hmd_system/pages/monitoring/monitoring1.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:hmd_system/pages/appointment/listAppointment.dart';
-import 'package:hmd_system/pages/appointment/addAppointment.dart';
 import 'package:intl/intl.dart';
 
 class homePage extends StatefulWidget {
@@ -310,12 +309,7 @@ class _homePageState extends State<homePage> {
                         ],
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => addApt()),
-                      );
-                    },
+                    onTap: () {},
                   ),
                 ],
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

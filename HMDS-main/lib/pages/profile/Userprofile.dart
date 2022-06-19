@@ -221,7 +221,11 @@ class _userProfileState extends State<userProfile> {
                           ),
                         ),
                         subtitle: Text(
-                          "${loggedInUser.street} ${loggedInUser.city} ${loggedInUser.postcode} ${loggedInUser.state} ${loggedInUser.country}",
+                          "${loggedInUser.street}, "
+                          "${loggedInUser.city}, "
+                          "${loggedInUser.postcode}, "
+                          "${loggedInUser.state}, "
+                          "${loggedInUser.country}",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,

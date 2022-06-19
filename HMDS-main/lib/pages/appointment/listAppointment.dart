@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:hmd_system/pages/appointment/editAppointment.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
-import 'package:hmd_system/component/aList.dart';
 
 class ListApt extends StatelessWidget {
   ListApt({Key? key}) : super(key: key);
@@ -16,9 +17,7 @@ class ListApt extends StatelessWidget {
   User? user = FirebaseAuth.instance.currentUser;
 
   Muser loggedInUser = Muser();
-  Appointment apst = Appointment();
-
-  List<Appointment> _aptList = [];
+  final List<Appointment> _aptList = [];
 
   Future<List<Appointment>?> loadList() async {
     await _firestore
@@ -98,40 +97,77 @@ class ListApt extends StatelessWidget {
                 itemCount: _aptList.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            "${_aptList[index].title}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    child: ExpandablePanel(
+                      header: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Text(
+                          "${_aptList[index].title} with ${_aptList[index].puser}",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
-                          subtitle: Text(
-                            "${_aptList[index].details}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
+                        ),
+                      ),
+                      collapsed: Text(
+                        "\t${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
+                        "\t | \t ${_aptList[index].hour}:${_aptList[index].min}",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      expanded: ListTile(
+                        subtitle: Text(
+                          "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
+                          "\t | \t ${_aptList[index].hour}:${_aptList[index].min}"
+                          "\n${_aptList[index].details}",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
                           ),
-                          trailing: Text(
-                            "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                        ),
+                        trailing: SizedBox(
+                          height: 35,
+                          width: 55,
+                          child: ElevatedButton(
+                            onPressed: () => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditAppt()),
+                              )
+                            },
+                            child: Icon(Icons.edit),
+                            style: ElevatedButton.styleFrom(
+                              side: const BorderSide(
+                                width: 2,
+                                color: Colors.teal,
+                              ),
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
               );
             } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+              );
             } else {
               return const Center(child: CircularProgressIndicator());
             }

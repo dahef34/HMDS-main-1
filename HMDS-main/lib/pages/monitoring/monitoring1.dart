@@ -1,17 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:hmd_system/pages/monitoring/monitoring2.dart';
-import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/pages/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hmd_system/model/Muser.dart';
+import 'package:hmd_system/model/patient.dart';
+import 'package:hmd_system/pages/profile/Userprofile.dart';
 
-class monitorMain extends StatefulWidget {
-  const monitorMain({Key? key}) : super(key: key);
+class monitorMain extends StatelessWidget {
+  monitorMain({Key? key}) : super(key: key);
 
-  @override
-  _monitorMainState createState() => _monitorMainState();
-}
-
-class _monitorMainState extends State<monitorMain> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  Muser loggedInUser = Muser();
+  final List<Patient> _pttList = [];
+
+  Future<List<Patient>?> loadList() async {
+    await _firestore
+        .collection("mUsers")
+        .doc(user!.uid)
+        .get()
+        .then((snapshot) async {
+      loggedInUser = Muser.fromMap(snapshot.data());
+      for (var apts in snapshot.data()?["patient"]) {
+        var _appointment = await _firestore.collection("users").doc(apts).get();
+
+        _pttList.add(Patient.fromMap(_appointment.data()));
+      }
+    });
+    return _pttList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +42,7 @@ class _monitorMainState extends State<monitorMain> {
         backgroundColor: Colors.lightBlue[800],
         elevation: 0.0,
         title: Text(
-          'Monitoring',
+          'Patient List',
           style: TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
@@ -64,124 +85,69 @@ class _monitorMainState extends State<monitorMain> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20.0),
-        child: GridView(
-          children: [
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blueGrey[300],
+        child: FutureBuilder(
+          future: loadList(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 20,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Arno",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                itemCount: _pttList.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.blueGrey[300],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              "${_pttList[index].name}\n${_pttList[index].last}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                            subtitle: Text(
+                              "${_pttList[index].cases}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                    Text(
-                      "Geronimo",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "\nCoronary Heart Disease",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
                 ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => monitor2()),
-                );
-              },
-            ),
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blueGrey[300],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "May",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Lee Jay",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "\nCardiomyopathy",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              onTap: () {},
-            ),
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blueGrey[300],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Samad",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "bin Muhammad",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "\nArrhythmia",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              onTap: () {},
-            ),
-          ],
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 20,
-          ),
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
       endDrawer: ClipPath(
