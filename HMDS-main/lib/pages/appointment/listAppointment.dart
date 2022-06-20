@@ -8,10 +8,15 @@ import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/model/appoinment.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 
-class ListApt extends StatelessWidget {
-  ListApt({Key? key}) : super(key: key);
+class ListApt extends StatefulWidget {
+  const ListApt({Key? key}) : super(key: key);
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  _listAptState createState() => _listAptState();
+}
+
+class _listAptState extends State<ListApt> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
@@ -59,7 +64,7 @@ class ListApt extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => userProfile(),
+                      builder: (context) => const userProfile(),
                     ),
                   );
                 },
@@ -67,14 +72,14 @@ class ListApt extends StatelessWidget {
                   Icons.person,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
               TextButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => setPage(),
+                      builder: (context) => const setPage(),
                     ),
                   );
                 },
@@ -82,97 +87,105 @@ class ListApt extends StatelessWidget {
                   Icons.settings,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
             ],
           )
         ],
       ),
-      body: Center(
-        child: FutureBuilder(
-          future: loadList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: _aptList.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ExpandablePanel(
-                      header: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(
-                          "${_aptList[index].title} with ${_aptList[index].puser}",
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Builder(builder: (context) {
+          return Center(
+            child: FutureBuilder(
+              future: loadList(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: _aptList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ExpandablePanel(
+                          header: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              "${_aptList[index].title} with ${_aptList[index].puser}",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      collapsed: Text(
-                        "\t${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
-                        "\t | \t ${_aptList[index].hour}:${_aptList[index].min}",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      expanded: ListTile(
-                        subtitle: Text(
-                          "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
-                          "\t | \t ${_aptList[index].hour}:${_aptList[index].min}"
-                          "\n${_aptList[index].details}",
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
+                          collapsed: Text(
+                            "\t${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
+                            "\t | \t ${_aptList[index].hour}:${_aptList[index].min}",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        trailing: SizedBox(
-                          height: 35,
-                          width: 55,
-                          child: ElevatedButton(
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditAppt()),
-                              )
-                            },
-                            child: Icon(Icons.edit),
-                            style: ElevatedButton.styleFrom(
-                              side: const BorderSide(
-                                width: 2,
-                                color: Colors.teal,
+                          expanded: ListTile(
+                            subtitle: Text(
+                              "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
+                              "\t | \t ${_aptList[index].hour}:${_aptList[index].min}"
+                              "\n${_aptList[index].details}",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                              ),
+                            ),
+                            trailing: SizedBox(
+                              height: 35,
+                              width: 55,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditApt(
+                                        appointment: _aptList[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: const Icon(Icons.edit),
+                                style: ElevatedButton.styleFrom(
+                                  side: const BorderSide(
+                                    width: 2,
+                                    color: Colors.teal,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
                   );
-                },
-              );
-            } else if (snapshot.hasError) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                ),
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          );
+        }),
       ),
       endDrawer: ClipPath(
         clipper: _DrawerClipper(),
@@ -180,7 +193,7 @@ class ListApt extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.only(top: 48.0),
             child: Column(
-              children: <Widget>[
+              children: const <Widget>[
                 Text(
                   "Notifications",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -196,12 +209,20 @@ class ListApt extends StatelessWidget {
         onPressed: () {
           _scaffoldKey.currentState?.openEndDrawer();
         },
-        child: Icon(
+        child: const Icon(
           Icons.notifications,
           color: Colors.white,
         ),
       ),
     );
+  }
+
+  Future<void> refresh() async {
+    Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+            pageBuilder: (a, b, c) => const ListApt(),
+            transitionDuration: const Duration(seconds: 2)));
   }
 }
 

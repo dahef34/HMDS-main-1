@@ -18,7 +18,7 @@ class _monitor2State extends State<monitor2> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[800],
         elevation: 0.0,
-        title: Text(
+        title: const Text(
           'Monitoring',
           style: TextStyle(
             fontSize: 15.0,
@@ -32,27 +32,29 @@ class _monitor2State extends State<monitor2> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => userProfile()),
+                    MaterialPageRoute(
+                        builder: (context) => const userProfile()),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
               TextButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => userProfile()),
+                    MaterialPageRoute(
+                        builder: (context) => const userProfile()),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
             ],
           )
@@ -60,7 +62,7 @@ class _monitor2State extends State<monitor2> {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             backgroundColor: Colors.white,
             floating: false,
             expandedHeight: 80,
@@ -79,19 +81,19 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.lightBlue[200],
                     ),
-                    child: Text(
+                    child: const Text(
                       '24, Coronary Heart Disease',
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => userProfile()),
+                              builder: (context) => const userProfile()),
                         );
                       },
                       child: Text(
@@ -110,7 +112,7 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Heart Rate (bpm): ',
                       textAlign: TextAlign.left,
                     ),
@@ -120,7 +122,7 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Oxygen Level (SpO2): ',
                       textAlign: TextAlign.left,
                     ),
@@ -130,7 +132,7 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Body Temperature (°C): ',
                       textAlign: TextAlign.left,
                     ),
@@ -140,7 +142,7 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[100],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Room Temperature (°C): ',
                       textAlign: TextAlign.left,
                     ),
@@ -151,7 +153,7 @@ class _monitor2State extends State<monitor2> {
                       border: Border.all(width: 3.0),
                       color: Colors.blueGrey[200],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Upcoming Appointments with Patient: ',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -164,7 +166,7 @@ class _monitor2State extends State<monitor2> {
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[300],
                     ),
-                    child: Text(
+                    child: const Text(
                       '02.02.2022 (WED) 08.00 AM - Second Visit'
                       '\n'
                       '\n03.02.2022 (THU) 10.00 AM - Body Checkup'
@@ -185,7 +187,7 @@ class _monitor2State extends State<monitor2> {
             padding: const EdgeInsets.only(top: 48.0),
             child: Column(
               children: <Widget>[
-                Text(
+                const Text(
                   "Notifications",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -200,7 +202,7 @@ class _monitor2State extends State<monitor2> {
         onPressed: () {
           _scaffoldKey.currentState?.openEndDrawer();
         },
-        child: Icon(
+        child: const Icon(
           Icons.notifications,
           color: Colors.white,
         ),

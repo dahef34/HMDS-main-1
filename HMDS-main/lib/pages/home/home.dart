@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hmd_system/model/Muser.dart';
 import 'package:hmd_system/pages/monitoring/monitoring1.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
+import 'package:hmd_system/pages/report.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:hmd_system/pages/appointment/listAppointment.dart';
 import 'package:intl/intl.dart';
@@ -19,15 +20,15 @@ class _homePageState extends State<homePage> {
   Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Do you want to exit the app?'),
+          title: const Text('Do you want to exit the app?'),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text('No'),
+              child: const Text('No'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         ),
@@ -42,7 +43,7 @@ class _homePageState extends State<homePage> {
     super.initState();
     FirebaseFirestore.instance.collection("mUsers").doc(user!.uid).get().then(
       (value) {
-        this.loggedInUser = Muser.fromMap(value.data());
+        loggedInUser = Muser.fromMap(value.data());
         setState(() {});
       },
     );
@@ -70,7 +71,7 @@ class _homePageState extends State<homePage> {
           elevation: 0.0,
           title: Text(
             "Welcome back, ${loggedInUser.name}!",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           actions: <Widget>[
             Row(
@@ -79,29 +80,30 @@ class _homePageState extends State<homePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => userProfile()),
+                      MaterialPageRoute(
+                          builder: (context) => const userProfile()),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                     color: Colors.black,
                   ),
-                  label: Text(''),
+                  label: const Text(''),
                 ),
                 TextButton.icon(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => setPage(),
+                        builder: (context) => const setPage(),
                       ),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.settings,
                     color: Colors.black,
                   ),
-                  label: Text(''),
+                  label: const Text(''),
                 ),
               ],
             )
@@ -122,7 +124,7 @@ class _homePageState extends State<homePage> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.wc,
                             size: 40,
@@ -160,7 +162,7 @@ class _homePageState extends State<homePage> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.calendar_today,
                             size: 40,
@@ -186,7 +188,8 @@ class _homePageState extends State<homePage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ListApt()),
+                        MaterialPageRoute(
+                            builder: (context) => const ListApt()),
                       );
                     },
                   ),
@@ -198,7 +201,7 @@ class _homePageState extends State<homePage> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.note_add_outlined,
                             size: 40,
@@ -221,7 +224,12 @@ class _homePageState extends State<homePage> {
                         ],
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ReportPage()),
+                      );
+                    },
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -233,14 +241,14 @@ class _homePageState extends State<homePage> {
                       children: <Widget>[
                         Text(
                           today,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 35,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           tomonth,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 25,
                               fontWeight: FontWeight.bold),
@@ -255,7 +263,7 @@ class _homePageState extends State<homePage> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.person_add,
                           size: 40,
@@ -286,7 +294,7 @@ class _homePageState extends State<homePage> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Icon(
                             Icons.add_to_photos_outlined,
                             size: 40,
@@ -312,7 +320,7 @@ class _homePageState extends State<homePage> {
                     onTap: () {},
                   ),
                 ],
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
@@ -327,7 +335,7 @@ class _homePageState extends State<homePage> {
             child: Container(
               padding: const EdgeInsets.only(top: 48.0),
               child: Column(
-                children: <Widget>[
+                children: const <Widget>[
                   Text(
                     "Notifications",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -343,7 +351,7 @@ class _homePageState extends State<homePage> {
           onPressed: () {
             _scaffoldKey.currentState?.openEndDrawer();
           },
-          child: Icon(
+          child: const Icon(
             Icons.notifications,
             color: Colors.white,
           ),
@@ -356,8 +364,8 @@ class _homePageState extends State<homePage> {
     Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-            pageBuilder: (a, b, c) => homePage(),
-            transitionDuration: Duration(seconds: 2)));
+            pageBuilder: (a, b, c) => const homePage(),
+            transitionDuration: const Duration(seconds: 2)));
   }
 }
 

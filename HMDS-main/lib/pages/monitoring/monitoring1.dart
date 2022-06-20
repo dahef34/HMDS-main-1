@@ -41,7 +41,7 @@ class monitorMain extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[800],
         elevation: 0.0,
-        title: Text(
+        title: const Text(
           'Patient List',
           style: TextStyle(
             fontSize: 15.0,
@@ -55,29 +55,30 @@ class monitorMain extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => userProfile()),
+                    MaterialPageRoute(
+                        builder: (context) => const userProfile()),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
               TextButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => setPage(),
+                      builder: (context) => const setPage(),
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
             ],
           )
@@ -90,7 +91,7 @@ class monitorMain extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 5,
                   crossAxisSpacing: 20,
@@ -109,7 +110,7 @@ class monitorMain extends StatelessWidget {
                           ListTile(
                             title: Text(
                               "${_pttList[index].name}\n${_pttList[index].last}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
@@ -117,7 +118,7 @@ class monitorMain extends StatelessWidget {
                             ),
                             subtitle: Text(
                               "${_pttList[index].cases}",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold),
@@ -139,7 +140,7 @@ class monitorMain extends StatelessWidget {
                     if (loadingProgress == null) {
                       return child;
                     } else {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                   },
                 ),
@@ -157,7 +158,7 @@ class monitorMain extends StatelessWidget {
             padding: const EdgeInsets.only(top: 48.0),
             child: Column(
               children: <Widget>[
-                Text(
+                const Text(
                   "Notifications",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -172,7 +173,7 @@ class monitorMain extends StatelessWidget {
         onPressed: () {
           _scaffoldKey.currentState?.openEndDrawer();
         },
-        child: Icon(
+        child: const Icon(
           Icons.notifications,
           color: Colors.white,
         ),

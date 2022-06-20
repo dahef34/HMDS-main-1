@@ -1,4 +1,4 @@
-/*import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -11,17 +11,20 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   late List<charts.Series<Sales, String>> _seriesBarData;
-  late List<Sales> myData;
-  _generateData(myData) {
+  late List<Sales> mydata;
+  _generateData(mydata) {
     _seriesBarData = <charts.Series<Sales, String>>[];
-    _seriesBarData.add(charts.Series(
+    _seriesBarData.add(
+      charts.Series(
         domainFn: (Sales sales, _) => sales.saleYear.toString(),
         measureFn: (Sales sales, _) => sales.saleVal,
         colorFn: (Sales sales, _) =>
             charts.ColorUtil.fromDartColor(Color(int.parse(sales.colorVal))),
         id: 'Sales',
-        data: myData,
-        labelAccessorFn: (Sales row, _) => "${row.saleYear}"));
+        data: mydata,
+        labelAccessorFn: (Sales row, _) => "${row.saleYear}",
+      ),
+    );
   }
 
   @override
@@ -38,23 +41,38 @@ class _ReportPageState extends State<ReportPage> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('sales').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return LinearProgressIndicator();
-        } else {
+        if (snapshot.hasData) {
           List<Sales> sales = snapshot.data!.docs
-              .map((documentSnapshot) => Sales.fromMap(documentSnapshot.data()))
+              .map((documentSnapshot) => Sales.fromMap(
+                  documentSnapshot.data() as Map<String, dynamic>))
               .toList();
           return _buildChart(context, sales);
+        } else if (!snapshot.hasData) {
+          return LinearProgressIndicator();
+        } else if (snapshot.hasError) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
   }
 
-  Widget _buildChart(BuildContext context, List<Sales> sales) {
-    myData = sales;
-    _generateData(
-      myData,
-    );
+  Widget _buildChart(BuildContext context, List<Sales> saledata) {
+    mydata = saledata;
+    _generateData(mydata);
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -62,7 +80,7 @@ class _ReportPageState extends State<ReportPage> {
           child: Column(
             children: <Widget>[
               Text(
-                'Sales By Year',
+                'Sales by Year',
                 style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -76,10 +94,9 @@ class _ReportPageState extends State<ReportPage> {
                   behaviors: [
                     new charts.DatumLegend(
                       entryTextStyle: charts.TextStyleSpec(
-                        color: charts.MaterialPalette.purple.shadeDefault,
-                        fontFamily: 'Georgia',
-                        fontSize: 18,
-                      ),
+                          color: charts.MaterialPalette.purple.shadeDefault,
+                          fontFamily: 'Georgia',
+                          fontSize: 18),
                     )
                   ],
                 ),
@@ -91,4 +108,3 @@ class _ReportPageState extends State<ReportPage> {
     );
   }
 }
-*/

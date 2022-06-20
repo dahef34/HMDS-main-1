@@ -33,11 +33,11 @@ class _changePasswordState extends State<changePassword> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Loginpage(),
+          builder: (context) => const Loginpage(),
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           backgroundColor: Colors.black,
           content: Text(
             'Passsword Updated! Please Login Again...',
@@ -49,11 +49,11 @@ class _changePasswordState extends State<changePassword> {
       setState(() {
         loading = false;
       });
-      Text('Update Failed, Please Try Again Later!');
+      const Text('Update Failed, Please Try Again Later!');
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => setPage(),
+          builder: (context) => const setPage(),
         ),
       );
     }
@@ -66,7 +66,7 @@ class _changePasswordState extends State<changePassword> {
       controller: newPassController,
       obscureText: hidePassword,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password Is Required");
         }
@@ -76,8 +76,8 @@ class _changePasswordState extends State<changePassword> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.vpn_key),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "New Password",
         hintText: "Enter New Password",
         border: OutlineInputBorder(
@@ -85,7 +85,7 @@ class _changePasswordState extends State<changePassword> {
         ),
         suffixIcon: InkWell(
           onTap: togglePasswordView,
-          child: Icon(
+          child: const Icon(
             Icons.visibility,
           ),
         ),
@@ -104,15 +104,15 @@ class _changePasswordState extends State<changePassword> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.vpn_key),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "Confirm Pasword",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         suffixIcon: InkWell(
           onTap: togglePasswordView,
-          child: Icon(
+          child: const Icon(
             Icons.visibility,
           ),
         ),
@@ -124,7 +124,7 @@ class _changePasswordState extends State<changePassword> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blue[400],
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
           if (_formkey.currentState!.validate()) {
@@ -134,7 +134,7 @@ class _changePasswordState extends State<changePassword> {
             changePassword();
           }
         },
-        child: Text(
+        child: const Text(
           "Update",
           style: TextStyle(
             fontSize: 20,
@@ -146,7 +146,7 @@ class _changePasswordState extends State<changePassword> {
     );
 
     return loading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             backgroundColor: Colors.blueGrey[100],
             body: Center(
@@ -160,13 +160,13 @@ class _changePasswordState extends State<changePassword> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         newPassField,
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         confirmPasswordField,
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         updateButton,
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),

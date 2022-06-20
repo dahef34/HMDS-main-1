@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/pages/authenticate/login.dart';
-import 'package:hmd_system/pages/authenticate/reset.dart';
 import 'package:hmd_system/pages/profile/changePassword.dart';
 
 class setPage extends StatefulWidget {
@@ -19,10 +18,10 @@ class _setPageState extends State<setPage> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[800],
         elevation: 0.0,
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 250.0, horizontal: 80.0),
+        padding: const EdgeInsets.symmetric(vertical: 250.0, horizontal: 80.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -34,7 +33,7 @@ class _setPageState extends State<setPage> {
                 style: ElevatedButton.styleFrom(
                   primary: Colors.green,
                   shadowColor: Colors.black,
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.black38,
                     width: 2.0,
                   ),
@@ -47,7 +46,7 @@ class _setPageState extends State<setPage> {
                     ),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'Change Password',
                   style: TextStyle(
                     color: Colors.white,
@@ -62,7 +61,7 @@ class _setPageState extends State<setPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Colors.black38,
                     width: 2.0,
                   ),
@@ -74,7 +73,7 @@ class _setPageState extends State<setPage> {
                           builder: (context) => const Loginpage()),
                       (Route<dynamic> route) => false);
                 },
-                child: Text(
+                child: const Text(
                   'Logout',
                   style: TextStyle(
                     color: Colors.white,
@@ -91,7 +90,7 @@ class _setPageState extends State<setPage> {
 
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => Loginpage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Loginpage()));
   }
 }

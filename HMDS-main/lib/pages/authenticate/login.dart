@@ -17,23 +17,23 @@ class _LoginState extends State<Loginpage> {
   Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Do you want to exit the app?'),
+          title: const Text('Do you want to exit the app?'),
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text('No'),
+              child: const Text('No'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         ),
       );
   bool hidePassword = true;
   final formkey = GlobalKey<FormState>();
-  final emailController = new TextEditingController();
-  final passwordController = new TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool loading = false;
 
   final _auth = FirebaseAuth.instance;
@@ -65,8 +65,8 @@ class _LoginState extends State<Loginpage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.mail),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -79,28 +79,29 @@ class _LoginState extends State<Loginpage> {
       controller: passwordController,
       obscureText: hidePassword,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password Is Required For Login");
         }
         if (!regex.hasMatch(value)) {
           return ("Please Enter Valid Password");
         }
+        return null;
       },
       onSaved: (value) {
         passwordController.text = value!;
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.vpn_key),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Password",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         suffixIcon: InkWell(
           onTap: togglePasswordView,
-          child: Icon(
+          child: const Icon(
             Icons.visibility,
           ),
         ),
@@ -112,12 +113,12 @@ class _LoginState extends State<Loginpage> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blue[400],
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
           signIn(emailController.text, passwordController.text);
         },
-        child: Text(
+        child: const Text(
           "Login",
           style: TextStyle(
             fontSize: 20,
@@ -137,7 +138,7 @@ class _LoginState extends State<Loginpage> {
         return shouldPop ?? false;
       },
       child: loading
-          ? Loading()
+          ? const Loading()
           : Scaffold(
               backgroundColor: Colors.blueGrey[100],
               body: Center(
@@ -160,17 +161,17 @@ class _LoginState extends State<Loginpage> {
                                 fontSize: 35,
                               ),
                             ),
-                            SizedBox(height: 45),
+                            const SizedBox(height: 45),
                             emailField,
-                            SizedBox(height: 25),
+                            const SizedBox(height: 25),
                             passwordField,
-                            SizedBox(height: 35),
+                            const SizedBox(height: 35),
                             loginButton,
-                            SizedBox(height: 15),
+                            const SizedBox(height: 15),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text("Press me to "),
+                                const Text("Press me to "),
                                 GestureDetector(
                                   onTap: () {
                                     _navigateToSignupScreen(context);
@@ -183,10 +184,10 @@ class _LoginState extends State<Loginpage> {
                                         fontSize: 15),
                                   ),
                                 ),
-                                Text("now !")
+                                const Text("now !")
                               ],
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -218,12 +219,12 @@ class _LoginState extends State<Loginpage> {
 
   void _navigateToSignupScreen(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegMuser()));
+        .push(MaterialPageRoute(builder: (context) => const RegMuser()));
   }
 
   void _navigateToResetScreen(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ResetScreen()));
+        .push(MaterialPageRoute(builder: (context) => const ResetScreen()));
   }
 
   void togglePasswordView() {
@@ -240,7 +241,7 @@ class _LoginState extends State<Loginpage> {
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successfully"),
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => homePage())),
+                    MaterialPageRoute(builder: (context) => const homePage())),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);

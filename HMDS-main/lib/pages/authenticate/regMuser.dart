@@ -15,11 +15,11 @@ class RegMuser extends StatefulWidget {
 class _RegMuserState extends State<RegMuser> {
   bool hidePassword = true;
   final formkey = GlobalKey<FormState>();
-  final nameEC = new TextEditingController();
-  final emailEC = new TextEditingController();
-  final nricEC = new TextEditingController();
-  final passwordEC = new TextEditingController();
-  final confirmPasswordEC = new TextEditingController();
+  final nameEC = TextEditingController();
+  final emailEC = TextEditingController();
+  final nricEC = TextEditingController();
+  final passwordEC = TextEditingController();
+  final confirmPasswordEC = TextEditingController();
 
   final _auth = FirebaseAuth.instance;
 
@@ -30,7 +30,7 @@ class _RegMuserState extends State<RegMuser> {
       controller: nameEC,
       keyboardType: TextInputType.name,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{3,}$');
+        RegExp regex = RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
           return ("Name Cannot Be Empty");
         }
@@ -44,8 +44,8 @@ class _RegMuserState extends State<RegMuser> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.person),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.person),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: 'Name',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -71,8 +71,8 @@ class _RegMuserState extends State<RegMuser> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.mail),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "Email",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -85,7 +85,7 @@ class _RegMuserState extends State<RegMuser> {
       controller: nricEC,
       keyboardType: TextInputType.number,
       validator: (value) {
-        RegExp regex = new RegExp(r'[0-9]');
+        RegExp regex = RegExp(r'[0-9]');
         if (value!.isEmpty) {
           return ("NRIC Cannot Be Empty");
         }
@@ -102,8 +102,8 @@ class _RegMuserState extends State<RegMuser> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.card_membership),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.card_membership),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "NRIC",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -116,25 +116,26 @@ class _RegMuserState extends State<RegMuser> {
       controller: passwordEC,
       obscureText: hidePassword,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password Is Required For Login");
         }
         if (!regex.hasMatch(value)) {
           return ("Please Enter Valid Password \n(6 Characters & above..)");
         }
+        return null;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.vpn_key),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "Password",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         suffixIcon: InkWell(
           onTap: togglePasswordView,
-          child: Icon(
+          child: const Icon(
             Icons.visibility,
           ),
         ),
@@ -153,15 +154,15 @@ class _RegMuserState extends State<RegMuser> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.vpn_key),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         labelText: "Confirm Pasword",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         suffixIcon: InkWell(
           onTap: togglePasswordView,
-          child: Icon(
+          child: const Icon(
             Icons.visibility,
           ),
         ),
@@ -173,12 +174,12 @@ class _RegMuserState extends State<RegMuser> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blue[400],
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
           signUp(emailEC.text, passwordEC.text);
         },
-        child: Text(
+        child: const Text(
           "Sign Up",
           style: TextStyle(
             fontSize: 20,
@@ -195,7 +196,7 @@ class _RegMuserState extends State<RegMuser> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -216,19 +217,19 @@ class _RegMuserState extends State<RegMuser> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     nameField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     emailField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     nricField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     passwordField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     confirmPasswordField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     signUpButton,
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -272,7 +273,9 @@ class _RegMuserState extends State<RegMuser> {
         .set(muser.toMap());
     Fluttertoast.showToast(msg: "Account Created Successfully");
 
-    Navigator.pushAndRemoveUntil((context),
-        MaterialPageRoute(builder: (context) => homePage()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => const homePage()),
+        (route) => false);
   }
 }

@@ -83,8 +83,8 @@ class _editProfileState extends State<editProfile> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[800],
         elevation: 0,
-        leading: BackButton(),
-        title: Text(
+        leading: const BackButton(),
+        title: const Text(
           'Edit Profile',
           style: TextStyle(
             fontSize: 15.0,
@@ -99,15 +99,15 @@ class _editProfileState extends State<editProfile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => setPage(),
+                      builder: (context) => const setPage(),
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings,
                   color: Colors.black,
                 ),
-                label: Text(''),
+                label: const Text(''),
               ),
             ],
           )
@@ -125,7 +125,7 @@ class _editProfileState extends State<editProfile> {
                 print('Something Went Wrong');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -142,17 +142,18 @@ class _editProfileState extends State<editProfile> {
               var country = data['country'];
 
               return Padding(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: ListView(
                   children: [
                     //name
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: name,
                         autofocus: false,
                         onChanged: (value) => name = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Name: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -160,7 +161,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Name Cannot Be Empty");
                           }
@@ -173,11 +174,11 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: DropdownButtonFormField(
                         value: post,
                         onChanged: (value) => post = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Position: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -192,12 +193,12 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: dept,
                         autofocus: false,
                         onChanged: (value) => dept = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Department: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -205,7 +206,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -215,12 +216,12 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: hosp,
                         autofocus: false,
                         onChanged: (value) => hosp = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Hospital: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -228,7 +229,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -238,12 +239,12 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: street,
                         autofocus: false,
                         onChanged: (value) => street = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Street: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -251,7 +252,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -261,12 +262,12 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: city,
                         autofocus: false,
                         onChanged: (value) => city = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'City: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -274,7 +275,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -284,12 +285,12 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: postcode,
                         autofocus: false,
                         onChanged: (value) => postcode = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Postcode: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -297,7 +298,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -307,11 +308,11 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: DropdownButtonFormField(
                         value: state,
                         onChanged: (value) => state = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'State: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -319,19 +320,19 @@ class _editProfileState extends State<editProfile> {
                         items: stt.map<DropdownMenuItem<String>>((state) {
                           return DropdownMenuItem<String>(
                             value: state,
-                            child: Text("${state}"),
+                            child: Text("$state"),
                           );
                         }).toList(),
                       ),
                     ),
 
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
                         initialValue: country,
                         autofocus: false,
                         onChanged: (value) => country = value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Country: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
@@ -339,7 +340,7 @@ class _editProfileState extends State<editProfile> {
                               TextStyle(color: Colors.red, fontSize: 15),
                         ),
                         validator: (value) {
-                          RegExp regex = new RegExp(r'^.{3,}$');
+                          RegExp regex = RegExp(r'^.{3,}$');
                           if (value!.isEmpty) {
                             return ("Cannot Be Empty");
                           }
@@ -349,42 +350,40 @@ class _editProfileState extends State<editProfile> {
                     ),
 
                     //button
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              if (formkey.currentState!.validate()) {
-                                updateUser(user!.uid, name, post, dept, hosp,
-                                        street, city, postcode, state, country)
-                                    .catchError((e) {
-                                  Fluttertoast.showToast(msg: e!.message);
-                                });
-                                Navigator.pop(context);
-                                Fluttertoast.showToast(
-                                    msg: "Profile Update Successfully");
-                              }
-                            },
-                            child: Text(
-                              'Update',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (formkey.currentState!.validate()) {
+                              updateUser(user!.uid, name, post, dept, hosp,
+                                      street, city, postcode, state, country)
+                                  .catchError((e) {
+                                Fluttertoast.showToast(msg: e!.message);
+                              });
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: "Profile Update Successfully");
+                            }
+                          },
+                          child: const Text(
+                            'Update',
+                            style: TextStyle(fontSize: 18.0),
                           ),
-                          ElevatedButton(
-                            onPressed: () => {
-                              delete(name, post, dept, hosp, street, city,
-                                  postcode, state, country)
-                            },
-                            child: Text(
-                              'Reset',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.blueGrey),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => {
+                            delete(name, post, dept, hosp, street, city,
+                                postcode, state, country)
+                          },
+                          child: const Text(
+                            'Reset',
+                            style: TextStyle(fontSize: 18.0),
                           ),
-                        ],
-                      ),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.blueGrey),
+                        ),
+                      ],
                     ),
                   ],
                 ),

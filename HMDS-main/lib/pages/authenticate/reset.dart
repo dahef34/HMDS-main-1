@@ -1,6 +1,4 @@
 import 'package:hmd_system/pages/authenticate/login.dart';
-import 'package:hmd_system/pages/home/home.dart';
-import 'package:hmd_system/model/Muser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,7 +12,7 @@ class ResetScreen extends StatefulWidget {
 
 class _ResetScreenState extends State<ResetScreen> {
   final formkey = GlobalKey<FormState>();
-  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   var email = " ";
 
   @override
@@ -46,8 +44,8 @@ class _ResetScreenState extends State<ResetScreen> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        prefixIcon: const Icon(Icons.mail),
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -60,7 +58,7 @@ class _ResetScreenState extends State<ResetScreen> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blue[400],
       child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
           if (formkey.currentState!.validate()) {
@@ -70,7 +68,7 @@ class _ResetScreenState extends State<ResetScreen> {
             reset();
           }
         },
-        child: Text(
+        child: const Text(
           "Send Request",
           style: TextStyle(
             fontSize: 20,
@@ -87,7 +85,7 @@ class _ResetScreenState extends State<ResetScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -108,11 +106,11 @@ class _ResetScreenState extends State<ResetScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     emailField,
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     resetButton,
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -128,13 +126,13 @@ class _ResetScreenState extends State<ResetScreen> {
       await auth.sendPasswordResetEmail(email: email);
       Fluttertoast.showToast(msg: "Check your email to reset the password");
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Loginpage()),
+        MaterialPageRoute(builder: (context) => const Loginpage()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No User Found \n Please Enter Valid Email');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.black,
             content: Text(
               'No User Found \nPlease Enter Valid Email',
