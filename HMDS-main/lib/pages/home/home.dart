@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hmd_system/model/Muser.dart';
+import 'package:hmd_system/pages/appointment/addAppointment.dart';
 import 'package:hmd_system/pages/monitoring/monitoring1.dart';
 import 'package:hmd_system/pages/profile/Userprofile.dart';
 import 'package:hmd_system/pages/report.dart';
@@ -317,7 +318,12 @@ class _homePageState extends State<homePage> {
                         ],
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                       Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddApt()),
+                      );
+                    },
                   ),
                 ],
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

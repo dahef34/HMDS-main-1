@@ -100,7 +100,7 @@ class _listAptState extends State<ListApt> {
             child: FutureBuilder(
               future: loadList(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData && _aptList.isNotEmpty) {
                   return ListView.builder(
                     itemCount: _aptList.length,
                     itemBuilder: (context, index) {
@@ -166,6 +166,7 @@ class _listAptState extends State<ListApt> {
                     },
                   );
                 } else if (snapshot.hasError) {
+                  debugPrint(snapshot.error.toString());
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(

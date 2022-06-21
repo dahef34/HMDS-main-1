@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hmd_system/pages/appointment/listAppointment.dart';
 import 'package:hmd_system/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hmd_system/model/Muser.dart';
@@ -11,15 +12,13 @@ class EditApt extends StatefulWidget {
   const EditApt({Key? key, required this.appointment}) : super(key: key);
 
   @override
-  _editAptState createState() => _editAptState();
+  _EditAptState createState() => _EditAptState();
 }
 
-class _editAptState extends State<EditApt> {
+class _EditAptState extends State<EditApt> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final User? user = FirebaseAuth.instance.currentUser;
-  late Muser loggedInUser = Muser();
-  final List<Appointment> _aptList = [];
+  late final Muser loggedInUser;
 
   Future<Muser> getUser() async {
     if (loggedInUser.uid == user?.uid) {
@@ -35,56 +34,18 @@ class _editAptState extends State<EditApt> {
     return loggedInUser;
   }
 
-  Future<List<Appointment>?> loadList() async {
-    final List<String>? apts =
-        await getUser().then((value) => value.appointment as List<String>?);
-    if (apts != null && apts.isNotEmpty) {
-      _aptList.clear();
-      for (final String apt in apts) {
-        var _appointment = await FirebaseFirestore.instance
-            .collection("appointment")
-            .doc(apt)
-            .get();
-
-        _aptList.add(Appointment.fromMap(_appointment.data()));
-      }
-      return _aptList;
-    } else {
-      return null;
-    }
-  }
-
-  Future<List<Appointment>?> addAppointment(Appointment apt) async {
-    _aptList.add(apt);
-    List<String?> apptUids = _aptList.map((e) => e.uid).toList();
-    await FirebaseFirestore.instance
-        .collection("mUsers")
-        .doc('${loggedInUser.uid}')
-        .set({"appointment": apptUids}).then((snapshot) async {
-      await FirebaseFirestore.instance
-          .collection('appointment')
-          .doc(apt.uid)
-          .set(apt.toMap());
-    });
-    return loadList();
-  }
-
-  Future<List<Appointment>?> updateAppointment(Appointment apt) async {
+  Future<void> updateAppointment(Appointment apt) async {
     await FirebaseFirestore.instance
         .collection('appointment')
         .doc(apt.uid)
         .set(apt.toMap());
-
-    return loadList();
   }
 
-  Future<List<Appointment>?> deleteAppointment(Appointment apt) async {
+  Future<void> deleteAppointment(Appointment apt) async {
     await FirebaseFirestore.instance
         .collection('appointment')
         .doc(apt.uid)
         .delete();
-
-    return loadList();
   }
 
   @override
@@ -140,67 +101,39 @@ class _editAptState extends State<EditApt> {
         ],
       ),
       body: Center(
-        child: FutureBuilder(
-          future: loadList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: _aptList.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          subtitle: Text(
-                            "${_aptList[index].day} ${_aptList[index].month} ${_aptList[index].year}"
-                            "\t | \t ${_aptList[index].hour}:${_aptList[index].min}"
-                            "\n${_aptList[index].details}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                          ),
-                          trailing: SizedBox(
-                            height: 35,
-                            width: 55,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                deleteAppointment(_aptList[index]);
-                              },
-                              child: const Icon(Icons.delete),
-                              style: ElevatedButton.styleFrom(
-                                side: const BorderSide(
-                                  width: 2,
-                                  color: Colors.teal,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            } else if (snapshot.hasError) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  'https://cdn.shopify.com/s/files/1/2594/8992/products/pvc_nothing_transparent_grande.png?v=1526830599',
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 40,
+                child: Form(
+                  onChanged: () {
+                    Form.of(primaryFocus!.context!)!.save();
                   },
+                  child: TextFormField(
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    initialValue: widget.appointment.title,
+                    decoration: const InputDecoration(
+                      hintText: "Appointment Title",
+                      labelText: "Appointmet Title",
+                      border: OutlineInputBorder(),
+                    ),
+                    onSaved: (String? value) async {
+                      if (value != null) {
+                        setState(() {
+                          widget.appointment.title = value;
+                        });
+                        await updateAppointment(widget.appointment);
+                      }
+                    },
+                  ),
                 ),
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
+              ),
+            ],
+          ),
         ),
       ),
       endDrawer: ClipPath(
