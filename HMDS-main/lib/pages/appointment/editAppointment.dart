@@ -127,6 +127,10 @@ class _EditAptState extends State<EditApt> {
                           widget.appointment.title = value;
                         });
                         await updateAppointment(widget.appointment);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ListApt()));
                       }
                     },
                   ),
