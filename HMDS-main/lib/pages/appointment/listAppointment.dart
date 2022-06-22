@@ -41,6 +41,20 @@ class _listAptState extends State<ListApt> {
     return _aptList;
   }
 
+  Future<void> deleteAppointment(Appointment apt) async {
+    await FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(apt.uid)
+        .delete();
+
+    await FirebaseFirestore.instance
+        .collection("mUsers")
+        .doc(user!.uid)
+        .update({
+      "appointment": FieldValue.arrayRemove([apt.uid!])
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,26 +152,51 @@ class _listAptState extends State<ListApt> {
                               ),
                             ),
                             trailing: SizedBox(
-                              height: 35,
-                              width: 55,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditApt(
-                                        appointment: _aptList[index],
+                              width: 120,
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: 35,
+                                    width: 55,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => EditApt(
+                                              appointment: _aptList[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(Icons.edit),
+                                      style: ElevatedButton.styleFrom(
+                                        side: const BorderSide(
+                                          width: 2,
+                                          color: Colors.teal,
+                                        ),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: const Icon(Icons.edit),
-                                style: ElevatedButton.styleFrom(
-                                  side: const BorderSide(
-                                    width: 2,
-                                    color: Colors.teal,
                                   ),
-                                ),
+                                  SizedBox(
+                                    height: 35,
+                                    width: 55,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await deleteAppointment(
+                                            _aptList[index]);
+                                        await refresh();
+                                      },
+                                      child: const Icon(Icons.delete),
+                                      style: ElevatedButton.styleFrom(
+                                        side: const BorderSide(
+                                          width: 2,
+                                          color: Colors.teal,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
